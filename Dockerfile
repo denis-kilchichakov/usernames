@@ -10,8 +10,7 @@ COPY go.sum ./
 RUN go mod download
 
 COPY *.go ./
-
-ADD cmd/uzrnames .
+COPY pkg ./pkg
 
 RUN go build -o main .
 
