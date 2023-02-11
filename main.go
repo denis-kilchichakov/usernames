@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"os"
-	"uzrnames/pkg/network"
 )
 
 func main() {
@@ -13,11 +12,11 @@ func main() {
 	// log that application is starting
 	logger.Println("Starting application")
 
-	body, err := network.GetBody("https://api.github.com/users/denis-kilchichakov")
-	if err != nil {
-		logger.Fatal(err)
-	}
-	logger.Println(string(body))
+	// body, err := network.GetBody("https://api.github.com/users/denis-kilchichakov")
+	// if err != nil {
+	// 	logger.Fatal(err)
+	// }
+	// logger.Println(string(body))
 
 	// log that application is shutting down
 	logger.Println("Shutting down application")
