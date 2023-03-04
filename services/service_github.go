@@ -4,13 +4,24 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/denis-kilchichakov/usernames/network"
+	"github.com/denis_kilchichakov/usernames/network"
 )
 
 type serviceGithub struct{}
 
+func init() {
+	err := registerService(&serviceGithub{})
+	if err != nil {
+		panic(err)
+	}
+}
+
 func (s *serviceGithub) name() string {
 	return "github"
+}
+
+func (s *serviceGithub) tags() []string {
+	return []string{"it", "social", "vcs"}
 }
 
 func (s *serviceGithub) check(username string, client network.RESTClient) (bool, error) {
