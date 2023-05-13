@@ -1,8 +1,8 @@
 package usernames
 
 import (
-	"github.com/denis_kilchichakov/usernames/network"
-	"github.com/denis_kilchichakov/usernames/services"
+	"github.com/denis-kilchichakov/usernames/network"
+	"github.com/denis-kilchichakov/usernames/services"
 )
 
 type CheckResult struct {
