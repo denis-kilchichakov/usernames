@@ -3,7 +3,7 @@ package usernames
 import (
 	"testing"
 
-	"github.com/denis_kilchichakov/usernames/services"
+	"github.com/denis-kilchichakov/usernames/services"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"golang.org/x/exp/slices"

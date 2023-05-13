@@ -1,4 +1,4 @@
-module github.com/denis_kilchichakov/usernames
+module github.com/denis-kilchichakov/usernames
 
 go 1.19
 

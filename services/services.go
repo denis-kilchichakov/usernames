@@ -3,7 +3,7 @@ package services
 import (
 	"fmt"
 
-	"github.com/denis_kilchichakov/usernames/network"
+	"github.com/denis-kilchichakov/usernames/network"
 )
 
 type serviceChecker interface {

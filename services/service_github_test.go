@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/denis_kilchichakov/usernames/network"
+	"github.com/denis-kilchichakov/usernames/network"
 	"github.com/stretchr/testify/assert"
 )
 
