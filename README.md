@@ -1,5 +1,7 @@
 # usernames
 
+[![Coverage Status](https://coveralls.io/repos/github/denis-kilchichakov/usernames/badge.svg)](https://coveralls.io/github/denis-kilchichakov/usernames)
+
 Library that checks if given username exists on popular internet services.
 
 # Installation
