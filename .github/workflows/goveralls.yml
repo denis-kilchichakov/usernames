@@ -8,24 +8,29 @@ on:
 
 jobs:
   test:
-    name: Run Tests
+    name: Test with Coverage
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.19'
 
-      - name: Set up Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.19
+    - name: Check out code
+      uses: actions/checkout@v2
 
-      - name: Run Tests and Generate Coverage
-        run: |
-          go test -v -coverprofile=coverage.out ./...
+    - name: Install dependencies
+      run: |
+        go mod download
 
-      - name: Upload Coverage
-        uses: mattn/goveralls@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-profile: coverage.out
+    - name: Run Unit tests
+      run: |
+        go test -race -covermode atomic -coverprofile=covprofile ./...
+
+    - name: Install goveralls
+      run: go install github.com/mattn/goveralls@latest
+      
+    - name: Send coverage
+      env:
+        COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: goveralls -coverprofile=covprofile -service=github
