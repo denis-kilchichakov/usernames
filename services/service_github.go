@@ -40,7 +40,7 @@ func (s *serviceGithub) check(username string, client network.RESTClient) (bool,
 
 	login, ok := result["login"]
 	if !ok || login != username {
-		return false, fmt.Errorf("Enexpected response from github: %s", respBody)
+		return false, fmt.Errorf("unexpected response from github: %s", respBody)
 	}
 
 	return true, nil

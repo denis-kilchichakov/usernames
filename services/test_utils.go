@@ -1,7 +1,10 @@
 package services
 
 import (
+	"testing"
+
 	"github.com/denis-kilchichakov/usernames/network"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -33,4 +36,9 @@ func (m *MockServiceChecker) check(username string, client network.RESTClient) (
 	m.checks = append(m.checks, m.Called(username, client))
 	args := m.Called(username, client)
 	return args.Bool(0), args.Error(1)
+}
+
+func assertRequest(t *testing.T, testClient network.TestRESTClient, expectedRequest *network.Request) {
+	assert.Equal(t, 1, len(testClient.Requests))
+	assert.Equal(t, expectedRequest, testClient.Requests[0])
 }
