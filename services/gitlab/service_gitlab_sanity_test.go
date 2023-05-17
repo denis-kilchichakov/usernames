@@ -1,7 +1,7 @@
 //go:build sanity
 // +build sanity
 
-package services
+package gitlab
 
 import (
 	"testing"
@@ -13,7 +13,7 @@ import (
 func TestServiceGitlabUsernameExist(t *testing.T) {
 	c := network.DefaultRESTClient{}
 	s := serviceGitlab{}
-	exists, err := s.check("abryp", &c)
+	exists, err := s.Check("abryp", &c)
 	assert.NoError(t, err)
 	assert.True(t, exists)
 }
@@ -21,7 +21,7 @@ func TestServiceGitlabUsernameExist(t *testing.T) {
 func TestServiceGitlabUsernameNotExist(t *testing.T) {
 	c := network.DefaultRESTClient{}
 	s := serviceGitlab{}
-	exists, err := s.check("pyrba", &c)
+	exists, err := s.Check("pyrba", &c)
 	assert.NoError(t, err)
 	assert.False(t, exists)
 }

@@ -1,30 +1,28 @@
-package services
+package github
 
 import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/denis-kilchichakov/usernames/contract"
 	"github.com/denis-kilchichakov/usernames/network"
 )
 
 type serviceGithub struct{}
 
-func init() {
-	err := registerService(&serviceGithub{})
-	if err != nil {
-		panic(err)
-	}
+func CreateService() contract.ServiceChecker {
+	return &serviceGithub{}
 }
 
-func (s *serviceGithub) name() string {
+func (s *serviceGithub) Name() string {
 	return "github"
 }
 
-func (s *serviceGithub) tags() []string {
+func (s *serviceGithub) Tags() []string {
 	return []string{"it", "social", "vcs"}
 }
 
-func (s *serviceGithub) check(username string, client network.RESTClient) (bool, error) {
+func (s *serviceGithub) Check(username string, client network.RESTClient) (bool, error) {
 	req := network.NewRequest("GET", "https://api.github.com/users/"+username, nil)
 	respBody, err := client.RetrieveBody(req)
 	if err != nil {

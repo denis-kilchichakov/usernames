@@ -3,28 +3,30 @@ package services
 import (
 	"fmt"
 
+	"github.com/denis-kilchichakov/usernames/contract"
 	"github.com/denis-kilchichakov/usernames/network"
+	"github.com/denis-kilchichakov/usernames/services/github"
+	"github.com/denis-kilchichakov/usernames/services/gitlab"
 )
 
-type serviceChecker interface {
-	name() string
-	tags() []string
-	check(username string, client network.RESTClient) (bool, error)
+var servicesByName map[string]contract.ServiceChecker = make(map[string]contract.ServiceChecker)
+var servicesByTag map[string][]contract.ServiceChecker = map[string][]contract.ServiceChecker{}
+
+func init() {
+	registerService(github.CreateService())
+	registerService(gitlab.CreateService())
 }
 
-var servicesByName map[string]serviceChecker = make(map[string]serviceChecker)
-var servicesByTag map[string][]serviceChecker = map[string][]serviceChecker{}
-
-func registerService(service serviceChecker) error {
-	if s, ok := servicesByName[service.name()]; ok {
+func registerService(service contract.ServiceChecker) error {
+	if s, ok := servicesByName[service.Name()]; ok {
 		if s != service {
-			return fmt.Errorf("service with name %s already exists", service.name())
+			return fmt.Errorf("service with name %s already exists", service.Name())
 		}
 	}
 
-	servicesByName[service.name()] = service
+	servicesByName[service.Name()] = service
 
-	for _, tag := range service.tags() {
+	for _, tag := range service.Tags() {
 		servicesByTag[tag] = append(servicesByTag[tag], service)
 	}
 
@@ -51,7 +53,7 @@ func GetSupportedServiceNamesByTag(tag string) []string {
 	if services, ok := servicesByTag[tag]; ok {
 		names := make([]string, 0, len(services))
 		for _, service := range services {
-			names = append(names, service.name())
+			names = append(names, service.Name())
 		}
 		return names
 	}
@@ -60,7 +62,7 @@ func GetSupportedServiceNamesByTag(tag string) []string {
 
 func Check(service string, username string, client network.RESTClient) (bool, error) {
 	if s, ok := servicesByName[service]; ok {
-		return s.check(username, client)
+		return s.Check(username, client)
 	}
 	return false, fmt.Errorf("service %s is not supported", service)
 }

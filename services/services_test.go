@@ -24,8 +24,8 @@ func TestRegisterServiceAddedTwoSuccessfully(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, before+2, len(servicesByName))
-	assert.Equal(t, s1, servicesByName[s1.name()])
-	assert.Equal(t, s2, servicesByName[s2.name()])
+	assert.Equal(t, s1, servicesByName[s1.Name()])
+	assert.Equal(t, s2, servicesByName[s2.Name()])
 	assert.Contains(t, servicesByTag["tag1"], s1)
 	assert.Contains(t, servicesByTag["tag2"], s1)
 	assert.Contains(t, servicesByTag["tag2"], s2)
@@ -79,8 +79,8 @@ func TestGetSupportedServiceNames(t *testing.T) {
 	assert.NoError(t, err)
 
 	names := GetSupportedServiceNames()
-	assert.Contains(t, names, s1.name())
-	assert.Contains(t, names, s2.name())
+	assert.Contains(t, names, s1.Name())
+	assert.Contains(t, names, s2.Name())
 }
 
 func TestGetSupportedServiceTags(t *testing.T) {
