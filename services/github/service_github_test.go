@@ -1,4 +1,4 @@
-package services
+package github
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ var githubExpectedRequest = network.NewRequest("GET", "https://api.github.com/us
 
 func TestServiceGithubName(t *testing.T) {
 	s := serviceGithub{}
-	assert.Equal(t, "github", s.name())
+	assert.Equal(t, "github", s.Name())
 }
 
 func TestServiceGithubCheckErrorOnBody(t *testing.T) {
@@ -23,10 +23,10 @@ func TestServiceGithubCheckErrorOnBody(t *testing.T) {
 		Body:  nil,
 	}
 	s := serviceGithub{}
-	_, err := s.check(githubUsername, &testClient)
+	_, err := s.Check(githubUsername, &testClient)
 	assert.Error(t, err)
 	assert.Equal(t, expectedErr, err)
-	assertRequest(t, testClient, githubExpectedRequest)
+	network.AssertRequest(t, testClient, githubExpectedRequest)
 }
 
 func TestServiceGithubCheckNotFound(t *testing.T) {
@@ -36,10 +36,10 @@ func TestServiceGithubCheckNotFound(t *testing.T) {
 		Body:  []byte(`{"message":"Not Found"}`),
 	}
 	s := serviceGithub{}
-	exists, err := s.check(githubUsername, &testClient)
+	exists, err := s.Check(githubUsername, &testClient)
 	assert.NoError(t, err)
 	assert.False(t, exists)
-	assertRequest(t, testClient, githubExpectedRequest)
+	network.AssertRequest(t, testClient, githubExpectedRequest)
 }
 
 func TestServiceGithubCheckDifferentLogin(t *testing.T) {
@@ -49,10 +49,10 @@ func TestServiceGithubCheckDifferentLogin(t *testing.T) {
 		Body:  []byte(`{"login":"someotherusername"}`),
 	}
 	s := serviceGithub{}
-	exists, err := s.check(githubUsername, &testClient)
+	exists, err := s.Check(githubUsername, &testClient)
 	assert.Error(t, err)
 	assert.False(t, exists)
-	assertRequest(t, testClient, githubExpectedRequest)
+	network.AssertRequest(t, testClient, githubExpectedRequest)
 }
 
 func TestServiceGithubCheckFormatChanged(t *testing.T) {
@@ -62,10 +62,10 @@ func TestServiceGithubCheckFormatChanged(t *testing.T) {
 		Body:  []byte(`{"notlogin":"` + githubUsername + `"}`),
 	}
 	s := serviceGithub{}
-	exists, err := s.check(githubUsername, &testClient)
+	exists, err := s.Check(githubUsername, &testClient)
 	assert.Error(t, err)
 	assert.False(t, exists)
-	assertRequest(t, testClient, githubExpectedRequest)
+	network.AssertRequest(t, testClient, githubExpectedRequest)
 }
 
 func TestServiceGithubCheckPassed(t *testing.T) {
@@ -75,8 +75,8 @@ func TestServiceGithubCheckPassed(t *testing.T) {
 		Body:  []byte(`{"login":"` + githubUsername + `"}`),
 	}
 	s := serviceGithub{}
-	exists, err := s.check(githubUsername, &testClient)
+	exists, err := s.Check(githubUsername, &testClient)
 	assert.NoError(t, err)
 	assert.True(t, exists)
-	assertRequest(t, testClient, githubExpectedRequest)
+	network.AssertRequest(t, testClient, githubExpectedRequest)
 }

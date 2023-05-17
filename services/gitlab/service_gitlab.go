@@ -1,30 +1,28 @@
-package services
+package gitlab
 
 import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/denis-kilchichakov/usernames/contract"
 	"github.com/denis-kilchichakov/usernames/network"
 )
 
 type serviceGitlab struct{}
 
-func init() {
-	err := registerService(&serviceGitlab{})
-	if err != nil {
-		panic(err)
-	}
+func CreateService() contract.ServiceChecker {
+	return &serviceGitlab{}
 }
 
-func (s *serviceGitlab) name() string {
+func (s *serviceGitlab) Name() string {
 	return "gitlab"
 }
 
-func (s *serviceGitlab) tags() []string {
+func (s *serviceGitlab) Tags() []string {
 	return []string{"it", "vcs", "ci/cd"}
 }
 
-func (s *serviceGitlab) check(username string, client network.RESTClient) (bool, error) {
+func (s *serviceGitlab) Check(username string, client network.RESTClient) (bool, error) {
 	req := network.NewRequest("GET", "https://gitlab.com/api/v4/users?username="+username, nil)
 	respBody, err := client.RetrieveBody(req)
 	if err != nil {

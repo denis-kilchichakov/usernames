@@ -55,8 +55,9 @@ go test ./... -tags=sanity
 
 ## How to add more services
 Inside package `services`:
-1. Implement `serviceChecker` interface
-1. Call `registerService()`
+1. Create subpackage for your service
+1. Implement `contract.ServiceChecker` interface
+1. Add `registerService()` call in `init()` (`services` package)
 
 ## Services planned to be added in future:
 * DockerHub

@@ -17,8 +17,8 @@ func TestCheck(t *testing.T) {
 	services := []string{"usernames_tests_mock1", "usernames_tests_mock2", "non-existent_service"}
 	username := "some_username"
 
-	mockServiceChecker1.Mock.On("check", username, mock.Anything).Return(true, nil)
-	mockServiceChecker2.Mock.On("check", username, mock.Anything).Return(false, nil)
+	mockServiceChecker1.Mock.On("Check", username, mock.Anything).Return(true, nil)
+	mockServiceChecker2.Mock.On("Check", username, mock.Anything).Return(false, nil)
 
 	results := Check(services, username, 3)
 
@@ -38,7 +38,7 @@ func TestExcluding(t *testing.T) {
 	i := slices.IndexFunc(excludedServices, func(s string) bool { return s == "usernames_tests_mock1" })
 	excludedServices = slices.Delete(excludedServices, i, i+1)
 
-	mockServiceChecker1.Mock.On("check", username, mock.Anything).Return(true, nil)
+	mockServiceChecker1.Mock.On("Check", username, mock.Anything).Return(true, nil)
 
 	results := CheckExcluding(excludedServices, username, 3)
 
@@ -51,8 +51,8 @@ func TestExcluding(t *testing.T) {
 func TestCheckByTags(t *testing.T) {
 	tags := []string{"utmt1", "utmt4"}
 	username := "some_username"
-	mockServiceChecker1.Mock.On("check", username, mock.Anything).Return(true, nil)
-	mockServiceChecker3.Mock.On("check", username, mock.Anything).Return(false, nil)
+	mockServiceChecker1.Mock.On("Check", username, mock.Anything).Return(true, nil)
+	mockServiceChecker3.Mock.On("Check", username, mock.Anything).Return(false, nil)
 
 	results := CheckByTags(tags, username, 3)
 
