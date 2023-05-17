@@ -37,6 +37,7 @@ func main() {
 Output:
 ```
 Check results for username "username-to-check":
+gitlab: false
 github: false
 ```
 
@@ -50,6 +51,7 @@ go test ./... -tags=sanity
 
 ## Supported services:
 * GitHub
+* GitLab
 
 ## How to add more services
 Inside package `services`:
@@ -57,9 +59,10 @@ Inside package `services`:
 1. Call `registerService()`
 
 ## Services planned to be added in future:
-* GitLab
 * DockerHub
 * LeetCode
 * CodeWars
+* HackerRank
+* StackOverflow
 * ...
 * you name it
