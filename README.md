@@ -6,7 +6,7 @@ Library that checks if given username exists on popular internet services.
 
 # Installation
 ```
-go get github.com/denis-kilchichakov/usernames@v0.1.1
+go get github.com/denis-kilchichakov/usernames@v0.2.0
 ```
 
 # Usage
