@@ -10,7 +10,7 @@ import (
 
 type serviceGithub struct{}
 
-func CreateService() contract.ServiceChecker {
+func NewService() contract.ServiceChecker {
 	return &serviceGithub{}
 }
 

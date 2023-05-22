@@ -1,7 +1,7 @@
 package network
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -31,7 +31,7 @@ func (c *DefaultRESTClient) RetrieveBody(request *Request) ([]byte, error) {
 	defer resp.Body.Close()
 
 	// read the response body
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}

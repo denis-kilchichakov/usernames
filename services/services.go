@@ -13,8 +13,8 @@ var servicesByName map[string]contract.ServiceChecker = make(map[string]contract
 var servicesByTag map[string][]contract.ServiceChecker = map[string][]contract.ServiceChecker{}
 
 func init() {
-	registerService(github.CreateService())
-	registerService(gitlab.CreateService())
+	registerService(github.NewService())
+	registerService(gitlab.NewService())
 }
 
 func registerService(service contract.ServiceChecker) error {

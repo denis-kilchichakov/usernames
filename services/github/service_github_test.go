@@ -11,9 +11,21 @@ import (
 var githubUsername = "someusername"
 var githubExpectedRequest = network.NewRequest("GET", "https://api.github.com/users/"+githubUsername, nil)
 
+func TestNewService(t *testing.T) {
+	s := NewService()
+	assert.NotNil(t, s)
+	_, ok := s.(*serviceGithub)
+	assert.True(t, ok)
+}
+
 func TestServiceGithubName(t *testing.T) {
-	s := serviceGithub{}
+	s := NewService()
 	assert.Equal(t, "github", s.Name())
+}
+
+func TestServiceGithubTags(t *testing.T) {
+	s := NewService()
+	assert.Equal(t, []string{"it", "social", "vcs"}, s.Tags())
 }
 
 func TestServiceGithubCheckErrorOnBody(t *testing.T) {
@@ -22,11 +34,11 @@ func TestServiceGithubCheckErrorOnBody(t *testing.T) {
 		Error: expectedErr,
 		Body:  nil,
 	}
-	s := serviceGithub{}
+	s := NewService()
 	_, err := s.Check(githubUsername, &testClient)
 	assert.Error(t, err)
 	assert.Equal(t, expectedErr, err)
-	network.AssertRequest(t, testClient, githubExpectedRequest)
+	assertRequest(t, testClient, githubExpectedRequest)
 }
 
 func TestServiceGithubCheckNotFound(t *testing.T) {
@@ -35,11 +47,11 @@ func TestServiceGithubCheckNotFound(t *testing.T) {
 		Error: nil,
 		Body:  []byte(`{"message":"Not Found"}`),
 	}
-	s := serviceGithub{}
+	s := NewService()
 	exists, err := s.Check(githubUsername, &testClient)
 	assert.NoError(t, err)
 	assert.False(t, exists)
-	network.AssertRequest(t, testClient, githubExpectedRequest)
+	assertRequest(t, testClient, githubExpectedRequest)
 }
 
 func TestServiceGithubCheckDifferentLogin(t *testing.T) {
@@ -48,11 +60,11 @@ func TestServiceGithubCheckDifferentLogin(t *testing.T) {
 		Error: nil,
 		Body:  []byte(`{"login":"someotherusername"}`),
 	}
-	s := serviceGithub{}
+	s := NewService()
 	exists, err := s.Check(githubUsername, &testClient)
 	assert.Error(t, err)
 	assert.False(t, exists)
-	network.AssertRequest(t, testClient, githubExpectedRequest)
+	assertRequest(t, testClient, githubExpectedRequest)
 }
 
 func TestServiceGithubCheckFormatChanged(t *testing.T) {
@@ -61,11 +73,11 @@ func TestServiceGithubCheckFormatChanged(t *testing.T) {
 		Error: nil,
 		Body:  []byte(`{"notlogin":"` + githubUsername + `"}`),
 	}
-	s := serviceGithub{}
+	s := NewService()
 	exists, err := s.Check(githubUsername, &testClient)
 	assert.Error(t, err)
 	assert.False(t, exists)
-	network.AssertRequest(t, testClient, githubExpectedRequest)
+	assertRequest(t, testClient, githubExpectedRequest)
 }
 
 func TestServiceGithubCheckPassed(t *testing.T) {
@@ -74,9 +86,14 @@ func TestServiceGithubCheckPassed(t *testing.T) {
 		Error: nil,
 		Body:  []byte(`{"login":"` + githubUsername + `"}`),
 	}
-	s := serviceGithub{}
+	s := NewService()
 	exists, err := s.Check(githubUsername, &testClient)
 	assert.NoError(t, err)
 	assert.True(t, exists)
-	network.AssertRequest(t, testClient, githubExpectedRequest)
+	assertRequest(t, testClient, githubExpectedRequest)
+}
+
+func assertRequest(t *testing.T, testClient network.TestRESTClient, expectedRequest *network.Request) {
+	assert.Equal(t, 1, len(testClient.Requests))
+	assert.Equal(t, expectedRequest, testClient.Requests[0])
 }
