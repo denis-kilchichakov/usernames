@@ -1,11 +1,9 @@
 package network
 
 import (
+	"errors"
 	"net/http"
 	"net/http/httptest"
-	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 type TestRESTClient struct {
@@ -36,7 +34,8 @@ func MockServer(path string, body []byte) (url string, finalizer func()) {
 	return
 }
 
-func AssertRequest(t *testing.T, testClient TestRESTClient, expectedRequest *Request) {
-	assert.Equal(t, 1, len(testClient.Requests))
-	assert.Equal(t, expectedRequest, testClient.Requests[0])
+type MockReader struct{}
+
+func (m *MockReader) Read(p []byte) (n int, err error) {
+	return 0, errors.New("mock read error")
 }

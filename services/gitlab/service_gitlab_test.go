@@ -11,9 +11,21 @@ import (
 var gitlabUsername = "someGitlabUsername"
 var gitlabExpectedRequest = network.NewRequest("GET", "https://gitlab.com/api/v4/users?username="+gitlabUsername, nil)
 
+func TestNewService(t *testing.T) {
+	s := NewService()
+	assert.NotNil(t, s)
+	_, ok := s.(*serviceGitlab)
+	assert.True(t, ok)
+}
+
 func TestServiceGitlabName(t *testing.T) {
-	s := serviceGitlab{}
+	s := NewService()
 	assert.Equal(t, "gitlab", s.Name())
+}
+
+func TestServiceGitlabTags(t *testing.T) {
+	s := NewService()
+	assert.Equal(t, []string{"it", "vcs", "ci/cd"}, s.Tags())
 }
 
 func TestServiceGitlabCheckErrorOnBody(t *testing.T) {
@@ -22,11 +34,11 @@ func TestServiceGitlabCheckErrorOnBody(t *testing.T) {
 		Error: expectedErr,
 		Body:  nil,
 	}
-	s := serviceGitlab{}
+	s := NewService()
 	_, err := s.Check(gitlabUsername, &testClient)
 	assert.Error(t, err)
 	assert.Equal(t, expectedErr, err)
-	network.AssertRequest(t, testClient, gitlabExpectedRequest)
+	assertRequest(t, testClient, gitlabExpectedRequest)
 }
 
 func TestServiceGitlabCheckNotFound(t *testing.T) {
@@ -35,11 +47,11 @@ func TestServiceGitlabCheckNotFound(t *testing.T) {
 		Error: nil,
 		Body:  []byte(`[]`),
 	}
-	s := serviceGitlab{}
+	s := NewService()
 	exists, err := s.Check(gitlabUsername, &testClient)
 	assert.NoError(t, err)
 	assert.False(t, exists)
-	network.AssertRequest(t, testClient, gitlabExpectedRequest)
+	assertRequest(t, testClient, gitlabExpectedRequest)
 }
 
 func TestServiceGitlabCheckDifferentLogin(t *testing.T) {
@@ -48,11 +60,11 @@ func TestServiceGitlabCheckDifferentLogin(t *testing.T) {
 		Error: nil,
 		Body:  []byte(`[{"username":"someotherusername"}]`),
 	}
-	s := serviceGitlab{}
+	s := NewService()
 	exists, err := s.Check(gitlabUsername, &testClient)
 	assert.Error(t, err)
 	assert.False(t, exists)
-	network.AssertRequest(t, testClient, gitlabExpectedRequest)
+	assertRequest(t, testClient, gitlabExpectedRequest)
 }
 
 func TestServiceGitlabCheckFormatChanged(t *testing.T) {
@@ -61,11 +73,11 @@ func TestServiceGitlabCheckFormatChanged(t *testing.T) {
 		Error: nil,
 		Body:  []byte(`[{"notlogin":"` + gitlabUsername + `"}]`),
 	}
-	s := serviceGitlab{}
+	s := NewService()
 	exists, err := s.Check(gitlabUsername, &testClient)
 	assert.Error(t, err)
 	assert.False(t, exists)
-	network.AssertRequest(t, testClient, gitlabExpectedRequest)
+	assertRequest(t, testClient, gitlabExpectedRequest)
 }
 
 func TestServiceGithlabCheckPassed(t *testing.T) {
@@ -74,9 +86,14 @@ func TestServiceGithlabCheckPassed(t *testing.T) {
 		Error: nil,
 		Body:  []byte(`[{"username":"` + gitlabUsername + `"}]`),
 	}
-	s := serviceGitlab{}
+	s := NewService()
 	exists, err := s.Check(gitlabUsername, &testClient)
 	assert.NoError(t, err)
 	assert.True(t, exists)
-	network.AssertRequest(t, testClient, gitlabExpectedRequest)
+	assertRequest(t, testClient, gitlabExpectedRequest)
+}
+
+func assertRequest(t *testing.T, testClient network.TestRESTClient, expectedRequest *network.Request) {
+	assert.Equal(t, 1, len(testClient.Requests))
+	assert.Equal(t, expectedRequest, testClient.Requests[0])
 }

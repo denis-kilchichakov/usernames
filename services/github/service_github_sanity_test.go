@@ -12,7 +12,7 @@ import (
 
 func TestServiceGithubUsernameExist(t *testing.T) {
 	c := network.DefaultRESTClient{}
-	s := serviceGithub{}
+	s := NewService()
 	exists, err := s.Check("denis-kilchichakov", &c)
 	assert.NoError(t, err)
 	assert.True(t, exists)
@@ -20,7 +20,7 @@ func TestServiceGithubUsernameExist(t *testing.T) {
 
 func TestServiceGithubUsernameNotExist(t *testing.T) {
 	c := network.DefaultRESTClient{}
-	s := serviceGithub{}
+	s := NewService()
 	exists, err := s.Check("kenis-dilchichakov", &c)
 	assert.NoError(t, err)
 	assert.False(t, exists)

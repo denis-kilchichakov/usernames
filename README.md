@@ -65,5 +65,6 @@ Inside package `services`:
 * CodeWars
 * HackerRank
 * StackOverflow
+* Habr
 * ...
 * you name it
