@@ -6,7 +6,7 @@ Library that checks if given username exists on popular internet services.
 
 # Installation
 ```
-go get github.com/denis-kilchichakov/usernames@v0.2.0
+go get github.com/denis-kilchichakov/usernames@v0.3.0
 ```
 
 # Usage
@@ -37,8 +37,9 @@ func main() {
 Output:
 ```
 Check results for username "username-to-check":
-gitlab: false
+leetcode: false
 github: false
+gitlab: false
 ```
 
 ## Tests
@@ -52,6 +53,7 @@ go test ./... -tags=sanity
 ## Supported services:
 * GitHub
 * GitLab
+* LeetCode
 
 ## How to add more services
 Inside package `services`:
@@ -61,10 +63,14 @@ Inside package `services`:
 
 ## Services planned to be added in future:
 * DockerHub
-* LeetCode
 * CodeWars
 * HackerRank
 * StackOverflow
 * Habr
+* Reddit
+* Twitter
+* Instagram
+* LinkedIn
+* Facebook
 * ...
 * you name it

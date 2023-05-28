@@ -12,15 +12,11 @@ type RESTClient interface {
 type DefaultRESTClient struct{}
 
 func (c *DefaultRESTClient) RetrieveBody(request *Request) ([]byte, error) {
-	// create a new request using http
-
 	req, err := http.NewRequest(request.method, request.url, request.body)
 	if err != nil {
 		return nil, err
 	}
-
-	// add an user-agent header to the request
-	// req.Header.Add("User-Agent", "UserNames-App")
+	req.Header.Set("Content-Type", "application/json")
 
 	// send the request
 	client := &http.Client{}
