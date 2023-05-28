@@ -7,6 +7,7 @@ import (
 	"github.com/denis-kilchichakov/usernames/network"
 	"github.com/denis-kilchichakov/usernames/services/github"
 	"github.com/denis-kilchichakov/usernames/services/gitlab"
+	"github.com/denis-kilchichakov/usernames/services/leetcode"
 )
 
 var servicesByName map[string]contract.ServiceChecker = make(map[string]contract.ServiceChecker)
@@ -15,6 +16,7 @@ var servicesByTag map[string][]contract.ServiceChecker = map[string][]contract.S
 func init() {
 	registerService(github.NewService())
 	registerService(gitlab.NewService())
+	registerService(leetcode.NewService())
 }
 
 func registerService(service contract.ServiceChecker) error {
