@@ -1,3 +1,6 @@
+//go:build sanity
+// +build sanity
+
 package instagram
 
 import (
