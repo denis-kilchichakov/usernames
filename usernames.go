@@ -62,7 +62,7 @@ type checkTask struct {
 func checkInternal(services []string, username string, parallelism int) []CheckResult {
 	client := &network.DefaultRESTClient{}
 	tasks := make(chan checkTask, parallelism)
-	results := make(chan CheckResult, parallelism)
+	results := make(chan CheckResult, len(services))
 
 	for w := 0; w < parallelism; w++ {
 		go worker(tasks, results, client)

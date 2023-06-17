@@ -7,6 +7,7 @@ import (
 	"github.com/denis-kilchichakov/usernames/network"
 	"github.com/denis-kilchichakov/usernames/services/github"
 	"github.com/denis-kilchichakov/usernames/services/gitlab"
+	"github.com/denis-kilchichakov/usernames/services/instagram"
 	"github.com/denis-kilchichakov/usernames/services/leetcode"
 )
 
@@ -17,6 +18,7 @@ func init() {
 	registerService(github.NewService())
 	registerService(gitlab.NewService())
 	registerService(leetcode.NewService())
+	registerService(instagram.NewService())
 }
 
 func registerService(service contract.ServiceChecker) error {

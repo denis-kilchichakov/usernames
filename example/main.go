@@ -8,7 +8,7 @@ import (
 
 func main() {
 	u := "username-to-check"
-	parallelism := 1
+	parallelism := 2
 	checkResults := usernames.CheckAll(u, parallelism)
 	fmt.Printf("Check results for username \"%s\":\n", u)
 	for _, r := range checkResults {

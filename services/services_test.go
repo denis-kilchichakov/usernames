@@ -108,3 +108,24 @@ func TestGetSupportedServiceTagsByNonExistentTag(t *testing.T) {
 	names := GetSupportedServiceNamesByTag("non-existent-tag")
 	assert.Empty(t, names)
 }
+
+func TestGetSupportedServiceNamesByTag(t *testing.T) {
+	s1 := &MockServiceChecker{
+		_name: "name9",
+		_tags: []string{"TestGetSupportedServiceNamesByTag"},
+	}
+	s2 := &MockServiceChecker{
+		_name: "name10",
+		_tags: []string{"TestGetSupportedServiceNamesByTag"},
+	}
+
+	err := registerService(s1)
+	assert.NoError(t, err)
+	err = registerService(s2)
+	assert.NoError(t, err)
+
+	names := GetSupportedServiceNamesByTag("TestGetSupportedServiceNamesByTag")
+	assert.Len(t, names, 2)
+	assert.Contains(t, names, s1.Name())
+	assert.Contains(t, names, s2.Name())
+}
