@@ -80,7 +80,7 @@ func TestServiceGitlabCheckFormatChanged(t *testing.T) {
 	assertRequest(t, testClient, gitlabExpectedRequest)
 }
 
-func TestServiceGithlabCheckPassed(t *testing.T) {
+func TestServiceGitlabCheckPassed(t *testing.T) {
 
 	testClient := network.TestRESTClient{
 		Error: nil,
