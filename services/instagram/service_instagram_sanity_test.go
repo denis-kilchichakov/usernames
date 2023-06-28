@@ -21,7 +21,7 @@ func TestServiceInstagramUsernameExist(t *testing.T) {
 func TestServiceInstagramUsernameNotExist(t *testing.T) {
 	c := network.DefaultRESTClient{}
 	s := NewService()
-	exists, err := s.Check("nonexistentinstauser", &c)
+	exists, err := s.Check("reallynonexistentinstauser", &c)
 	assert.NoError(t, err)
 	assert.False(t, exists)
 }
