@@ -9,6 +9,7 @@ import (
 	"github.com/denis-kilchichakov/usernames/services/gitlab"
 	"github.com/denis-kilchichakov/usernames/services/instagram"
 	"github.com/denis-kilchichakov/usernames/services/leetcode"
+	"github.com/denis-kilchichakov/usernames/services/stackoverflow"
 )
 
 var servicesByName map[string]contract.ServiceChecker = make(map[string]contract.ServiceChecker)
@@ -19,6 +20,7 @@ func init() {
 	registerService(gitlab.NewService())
 	registerService(leetcode.NewService())
 	registerService(instagram.NewService())
+	registerService(stackoverflow.NewService())
 }
 
 func registerService(service contract.ServiceChecker) error {

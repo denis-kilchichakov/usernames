@@ -7,7 +7,7 @@ Library that checks if given username exists on popular internet services.
 
 # Installation
 ```
-go get github.com/denis-kilchichakov/usernames@v0.4.1
+go get github.com/denis-kilchichakov/usernames@v0.5.0
 ```
 
 # Usage
@@ -40,14 +40,14 @@ Output:
 Check results for username "username-to-check":
 github: false
 gitlab: false
-leetcode: false
 instagram: false
+leetcode: false
+stackoverflow: false
 ```
 
 ## Tests
 
-To launch sanity checks (tests with pairs of existing and non-existing usernames on supported services, to validate the algorithm):
-
+To launch sanity checks (which do requests to actual services instead of mocks in unit tests):
 ```go
 go test ./... -tags=sanity
 ```
@@ -57,6 +57,7 @@ go test ./... -tags=sanity
 * GitLab
 * LeetCode
 * Instagram
+* StackOverflow
 
 ## How to add more services
 Inside package `services`:
@@ -68,7 +69,6 @@ Inside package `services`:
 * DockerHub
 * CodeWars
 * HackerRank
-* StackOverflow
 * Habr
 * Kaggle
 * Telegram
@@ -76,5 +76,7 @@ Inside package `services`:
 * Twitter
 * LinkedIn
 * Facebook
+* Google
+* TikTok
 * ...
 * you name it

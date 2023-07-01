@@ -13,7 +13,7 @@ type StackExchangeAPI interface {
 
 type StackExchange struct{}
 
-func (s StackExchange) Check(username string, site string, client network.RESTClient) (bool, error) {
+func (s *StackExchange) Check(username string, site string, client network.RESTClient) (bool, error) {
 	apiURL := "https://api.stackexchange.com/2.3/users"
 	params := url.Values{}
 	params.Set("order", "desc")
