@@ -1,7 +1,7 @@
 # usernames
 
 [![Coverage Status](https://coveralls.io/repos/github/denis-kilchichakov/usernames/badge.svg?branch=main)](https://coveralls.io/github/denis-kilchichakov/usernames?branch=main)
-![Tests+Sanity](https://github.com/denis-kilchichakov/usernames/actions/workflows/tests.yml/badge.svg)
+![Tests+Sanity](https://github.com/denis-kilchichakov/usernames/actions/workflows/goveralls.yml/badge.svg)
 
 Library that checks if given username exists on popular internet services.
 
