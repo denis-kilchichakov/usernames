@@ -103,3 +103,16 @@ func TestStackExchangeNotFound(t *testing.T) {
 	assert.Len(t, mockClient.Requests, 1)
 	assert.Equal(t, expectedRequest, request)
 }
+
+func TestStackExchangeUnexpectedResponseBody(t *testing.T) {
+	mockClient := &network.TestRESTClient{
+		Body:  []byte(`{"not_items": [{"display_name": "AwesomeUser"}]}`),
+		Error: nil,
+	}
+	stackExchange := StackExchange{}
+
+	result, err := stackExchange.Check("someUser", "stackoverflow", mockClient)
+
+	assert.ErrorContains(t, err, "unexpected response")
+	assert.False(t, result)
+}

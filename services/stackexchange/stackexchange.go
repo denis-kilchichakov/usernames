@@ -2,6 +2,7 @@ package stackexchange
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/url"
 
 	"github.com/denis-kilchichakov/usernames/network"
@@ -34,14 +35,17 @@ func (s *StackExchange) Check(username string, site string, client network.RESTC
 		return false, err
 	}
 
-	users := data["items"].([]interface{})
-	for _, user := range users {
-		userData := user.(map[string]interface{})
-		displayName := userData["display_name"].(string)
-		if displayName == username {
-			return true, nil
+	if users, ok := data["items"].([]interface{}); ok {
+		for _, user := range users {
+			userData := user.(map[string]interface{})
+			displayName := userData["display_name"].(string)
+			if displayName == username {
+				return true, nil
+			}
 		}
-	}
 
-	return false, nil
+		return false, nil
+	} else {
+		return false, fmt.Errorf("unexpected response from stackexchange, field 'items' is missing")
+	}
 }

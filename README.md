@@ -52,6 +52,13 @@ To launch sanity checks (which do requests to actual services instead of mocks i
 go test ./... -tags=sanity
 ```
 
+## Working in VS Code
+
+For sanity test files to be processed correctly by VS Code, consider adding this to `settings.json`:
+```
+    "gopls.buildFlags": ["-tags=sanity"],
+```
+
 ## Supported services:
 * GitHub
 * GitLab
