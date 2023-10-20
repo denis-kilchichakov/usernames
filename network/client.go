@@ -7,6 +7,7 @@ import (
 
 type RESTClient interface {
 	RetrieveBody(request *Request) ([]byte, error)
+	RetrieveHead(url string) (*http.Response, error)
 }
 
 type DefaultRESTClient struct{}
@@ -33,4 +34,13 @@ func (c *DefaultRESTClient) RetrieveBody(request *Request) ([]byte, error) {
 	}
 
 	return body, nil
+}
+
+func (c *DefaultRESTClient) RetrieveHead(url string) (*http.Response, error) {
+	resp, err := http.Head(url)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }

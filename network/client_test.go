@@ -55,3 +55,29 @@ func TestRetrieveBodyNil(t *testing.T) {
 	assert.Nil(t, body)
 	assert.ErrorContains(t, err, "mock read error")
 }
+
+func TestRetrieveHeadSuccess(t *testing.T) {
+	url, finalizer := MockServer("/some/path", []byte("OK"))
+	defer finalizer()
+	client := DefaultRESTClient{}
+
+	resp, err := client.RetrieveHead(url + "/some/path")
+	assert.NoError(t, err)
+
+	defer resp.Body.Close()
+
+	assert.Equal(t, resp.StatusCode, 200)
+}
+
+func TestRetrieveHeadNotFound(t *testing.T) {
+	url, finalizer := MockServer("/some/path", []byte("OK"))
+	defer finalizer()
+	client := DefaultRESTClient{}
+
+	resp, err := client.RetrieveHead(url + "/another/path")
+	assert.NoError(t, err)
+
+	defer resp.Body.Close()
+
+	assert.Equal(t, resp.StatusCode, 404)
+}
