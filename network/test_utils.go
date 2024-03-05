@@ -10,9 +10,19 @@ import (
 type TestRESTClient struct {
 	Body         []byte
 	Error        error
+	StatusCode   int
+	DoRequests   []*Request
 	Requests     []*Request
 	HeadRequests []*string
 	HeadResponse *http.Response
+}
+
+func (c *TestRESTClient) Do(request *Request) (*http.Response, error) {
+	c.DoRequests = append(c.DoRequests, request)
+	return &http.Response{
+		Body:       &MockReadCloser{ReadBody: c.Body},
+		StatusCode: c.StatusCode,
+	}, c.Error
 }
 
 func (c *TestRESTClient) RetrieveBody(request *Request) ([]byte, error) {

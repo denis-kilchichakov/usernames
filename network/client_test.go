@@ -1,10 +1,25 @@
 package network
 
 import (
+	"io"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
+
+func TestDoRequest(t *testing.T) {
+	url, finalizer := MockServer("/some/path", []byte("OK"))
+	defer finalizer()
+	client := DefaultRESTClient{}
+
+	resp, err := client.Do(NewRequest("GET", url+"/some/path", nil))
+	assert.NoError(t, err)
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	assert.NoError(t, err)
+	assert.Equal(t, 200, resp.StatusCode)
+	assert.Equal(t, []byte("OK"), body)
+}
 
 func TestRetrieveBody(t *testing.T) {
 	url, finalizer := MockServer("/some/path", []byte("OK"))
