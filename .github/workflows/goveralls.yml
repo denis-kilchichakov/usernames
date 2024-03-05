@@ -22,10 +22,10 @@ jobs:
     - name: Install dependencies
       run: |
         go mod download
-
+    # Unluckily sanity tests for Reddit don't work from GitHub action agents, seem to be filtered out with 403 code
     - name: Run Unit tests
       run: |
-        go test -race -covermode atomic -coverprofile=covprofile ./... -tags=sanity
+        go test -race -covermode atomic -coverprofile=covprofile ./... -tags=sanity -run="^.*_test\.go$!/service_reddit_sanity_test\.go"
 
     - name: Install goveralls
       run: go install github.com/mattn/goveralls@latest
