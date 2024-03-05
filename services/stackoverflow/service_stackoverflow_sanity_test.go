@@ -12,6 +12,7 @@ import (
 )
 
 func TestServiceStackoverflowUsernameExist(t *testing.T) {
+	time.Sleep(time.Duration(time.Second * 2)) // to avoid rate limit
 	c := network.DefaultRESTClient{}
 	s := NewService()
 	exists, err := s.Check("augur", &c)
@@ -20,7 +21,7 @@ func TestServiceStackoverflowUsernameExist(t *testing.T) {
 }
 
 func TestServiceStackoverflowUsernameNotExist(t *testing.T) {
-	time.Sleep(time.Duration(time.Second * 1)) // to avoid rate limit
+	time.Sleep(time.Duration(time.Second * 2)) // to avoid rate limit
 	c := network.DefaultRESTClient{}
 	s := NewService()
 	exists, err := s.Check("AwSdFghjkl", &c)

@@ -7,7 +7,7 @@ Library that checks if given username exists on popular internet services.
 
 # Installation
 ```
-go get github.com/denis-kilchichakov/usernames@v0.6.0
+go get github.com/denis-kilchichakov/usernames@v0.7.0
 ```
 
 # Usage
@@ -38,12 +38,13 @@ func main() {
 Output:
 ```
 Check results for username "username-to-check":
-github: false
 gitlab: false
-instagram: false
 leetcode: false
+instagram: false
 stackoverflow: false
+reddit: false
 dockerhub: false
+github: false
 ```
 
 ## Tests
@@ -67,6 +68,7 @@ For sanity test files to be processed correctly by VS Code, consider adding this
 * Instagram
 * StackOverflow
 * DockerHub
+* Reddit
 
 ## How to add more services
 Inside package `services`:
@@ -80,11 +82,11 @@ Inside package `services`:
 * Habr
 * Kaggle
 * Telegram
-* Reddit
 * X (Twitter)
 * LinkedIn
 * Facebook
 * Google
 * TikTok
+* Pinterest
 * ...
 * you name it
