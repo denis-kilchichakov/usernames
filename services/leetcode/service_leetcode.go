@@ -54,6 +54,8 @@ func (s *serviceLeetcode) Check(username string, client network.RESTClient) (boo
 	}
 
 	var result response
+	// var x = string(respBody)
+	// print(x)
 	err = json.Unmarshal(respBody, &result)
 	if err != nil {
 		fmt.Println("Error unmarshalling response:", err)

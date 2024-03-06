@@ -1,5 +1,5 @@
-//go:build sanity
-// +build sanity
+//go:build sanity && exclude_gh
+// +build sanity,exclude_gh
 
 package reddit
 
