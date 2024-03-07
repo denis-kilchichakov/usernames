@@ -64,7 +64,7 @@ For sanity test files to be processed correctly by VS Code, consider adding this
 ## Supported services:
 * GitHub
 * GitLab
-* LeetCode
+* Leetcode (Leetcode limited its GraphQL for external callers, no workaround yet)
 * Instagram
 * StackOverflow
 * DockerHub
